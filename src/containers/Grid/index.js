@@ -1,21 +1,21 @@
-import React, { PureComponent } from 'react';
-import { connect } from 'react-redux';
-import { testAction } from './actions';
+import React, { PureComponent } from 'react'
+import { connect } from 'react-redux'
+import { updateSquare, focusSquare, focusNeighbor } from './actions'
+import { squares } from './selectors'
+import Grid from '../../components/Grid'
 
 class GridContainer extends PureComponent {
   render() {
-    return <div onClick={this.props.testAction} >Hi</div>;
+    return <Grid {...this.props} />
   }
 }
 
-function mapStateToProps(state) {
-  return state.grid;
-}
+const mapStateToProps = state => ({
+  ...state.grid,
+  squares: squares(state),
+})
 
-function mapDispatchToProps(dispatch) {
-  return {
-    testAction: () => dispatch(testAction())
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(GridContainer);
+export default connect(
+  mapStateToProps,
+  { updateSquare, focusSquare, focusNeighbor }
+)(GridContainer)
